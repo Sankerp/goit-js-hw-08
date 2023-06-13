@@ -11,7 +11,6 @@ function saveObjectToLocalStore() {
     }
   }
   localStorage.setItem(storageKey, JSON.stringify(object));
-  console.log(object);
 }
 
 function restoreLocalStore() {
@@ -29,34 +28,19 @@ function removeObjectLocalStore() {
   localStorage.removeItem(storageKey);
 }
 const throttleSaveObjectToLocalStore = throttle(saveObjectToLocalStore, 500);
+
 function handlerSubmit(event) {
   event.preventDefault();
   const object = {};
   for (const element of form.elements) {
     if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-      element.value = object[element.name] || '';
+      object[element.name] = element.value || '';
     }
   }
-  // localStorage.clear();
+  console.log(object);
   removeObjectLocalStore();
   form.reset();
 }
 form.addEventListener('submit', handlerSubmit);
 form.addEventListener('input', throttleSaveObjectToLocalStore);
 restoreLocalStore();
-
-//     const {
-//     elements: { email, message },
-//   } = event.currentTarget;
-
-//   const UserData = {
-//     // userEmail: email.value,
-//     // userMessage: message.value,
-//   };
-
-// for (element of elements) {
-//   if (elemet.tagName === 'INPUT' || element.tegName === 'TEXTAREA') {
-//     elements[element.name] = element.value;
-//     console.log(elements);
-//   }
-// }
